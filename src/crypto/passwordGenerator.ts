@@ -17,12 +17,12 @@ export async function generatePassword(params: {
   version: number;
   policy: PasswordPolicy;
 }): Promise<string> {
-  const seed = await deriveSiteSeed(params);
+  const seed = await deriveSiteSeed(params) as Uint8Array<ArrayBuffer>;
 
   const hashBuffer = await crypto.subtle.digest(
-    "SHA-256",
-    seed
-  );
+  "SHA-256",
+  seed as BufferSource
+);
 
   const bytes = new Uint8Array(hashBuffer);
 

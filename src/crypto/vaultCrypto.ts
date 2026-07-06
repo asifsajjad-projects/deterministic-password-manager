@@ -9,20 +9,17 @@ export interface EncryptedVaultFile {
   data: string;
 }
 
-function toBytes(b64: string) {
-  return base64ToBytes(b64);
-}
-
-function fromBytes(bytes: Uint8Array) {
-  return bytesToBase64(bytes);
-}
-
 export async function encryptVault(params: {
   masterPassword: string;
   vault: unknown;
 }): Promise<EncryptedVaultFile> {
-  const salt = crypto.getRandomValues(new Uint8Array(16));
-  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const salt = crypto.getRandomValues(
+    new Uint8Array(16)
+  ) as Uint8Array<ArrayBuffer>;
+
+  const iv = crypto.getRandomValues(
+    new Uint8Array(12)
+  ) as Uint8Array<ArrayBuffer>;
 
   const key = await deriveMasterKey(
     params.masterPassword,
@@ -41,9 +38,11 @@ export async function encryptVault(params: {
 
   return {
     version: 1,
-    salt: fromBytes(salt),
-    iv: fromBytes(iv),
-    data: fromBytes(new Uint8Array(ciphertext)),
+    salt: bytesToBase64(salt),
+    iv: bytesToBase64(iv),
+    data: bytesToBase64(
+      new Uint8Array(ciphertext)
+    ),
   };
 }
 
@@ -51,9 +50,9 @@ export async function decryptVault(params: {
   masterPassword: string;
   file: EncryptedVaultFile;
 }): Promise<any> {
-  const salt = toBytes(params.file.salt);
-  const iv = toBytes(params.file.iv);
-  const data = toBytes(params.file.data);
+  const salt = base64ToBytes(params.file.salt);
+  const iv = base64ToBytes(params.file.iv);
+  const data = base64ToBytes(params.file.data);
 
   const key = await deriveMasterKey(
     params.masterPassword,

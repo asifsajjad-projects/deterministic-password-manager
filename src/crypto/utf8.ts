@@ -1,8 +1,11 @@
 const encoder = new TextEncoder();
 const decoder = new TextDecoder();
 
-export function encodeUtf8(value: string): Uint8Array {
-  return encoder.encode(value);
+/**
+ * Always return ArrayBuffer (WebCrypto-compatible)
+ */
+export function encodeUtf8(value: string): ArrayBuffer {
+  return encoder.encode(value).buffer;
 }
 
 export function decodeUtf8(value: BufferSource): string {

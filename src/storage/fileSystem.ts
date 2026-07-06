@@ -35,21 +35,21 @@ export async function writeVaultFile(
   await writable.close();
 }
 
-export async function readVaultFile(): Promise<
-  EncryptedVaultFile
-> {
-  // @ts-ignore
-  [fileHandle] = await window.showOpenFilePicker({
-    types: [
-      {
-        description: "Encrypted Vault",
-        accept: {
-          "application/octet-stream": [".enc"],
+export async function readVaultFile() {
+  if (!fileHandle) {
+    // @ts-ignore
+    [fileHandle] = await window.showOpenFilePicker({
+      types: [
+        {
+          description: "Encrypted Vault",
+          accept: {
+            "application/octet-stream": [".enc"],
+          },
         },
-      },
-    ],
-  });
+      ],
+    });
+  }
 
-  const file = await fileHandle.getFile();
+  const file = await fileHandle!.getFile();
   return JSON.parse(await file.text());
 }
