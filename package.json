@@ -2,7 +2,7 @@
   "name": "deterministic-password-manager",
   "private": true,
   "version": "1.0.0",
-  "homepage": "https://asifsajjad-projects.github.io/password-manager",
+  "homepage": "https://asifsajjad-projects.github.io/deterministic-password-manager",
   "type": "module",
   "scripts": {
     "dev": "vite",
