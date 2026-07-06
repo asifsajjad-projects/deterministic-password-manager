@@ -35,7 +35,7 @@ export default function App() {
   }
 
   return (
-    <BrowserRouter basename="/password-manager/">
+    <BrowserRouter basename="/deterministic-password-manager/">
     <div style={{ padding: 20 }}>
       <Home />
       <hr />
